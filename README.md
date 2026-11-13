@@ -1,4 +1,4 @@
-# DSDX: Design System Developer Experience
+# Design Developer-Experience (Design-DX)
 
 DSDX is a convention for packaging, applying, and updating design systems across
 projects, output formats, and AI-assisted workflows. Keep design intent in
