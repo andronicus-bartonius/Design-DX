@@ -1,0 +1,8 @@
+/* Illustrative counterpart to space.paragraph; no generator is shipped. */
+.example-reading {
+  --example-paragraph-gap: 1rem;
+}
+
+.example-reading p + p {
+  margin-block-start: var(--example-paragraph-gap);
+}

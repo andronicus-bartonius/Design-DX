@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DSDX design-system package, working draft 0.1.0-draft.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["dsdxVersion", "id", "version", "entrypoint"],
+  "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
+    "dsdxVersion": { "const": "0.1.0-draft.1" },
+    "id": { "$ref": "#/$defs/id", "not": { "const": "extensions" } },
+    "version": { "type": "string", "minLength": 1, "pattern": "^[^\\s]+$", "not": { "const": "latest" } },
+    "entrypoint": { "const": "DESIGN.md" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "revision"],
+      "properties": {
+        "repository": { "type": "string", "pattern": "^https://" },
+        "revision": { "type": "string", "minLength": 1 }
+      }
+    },
+    "foundation": { "$ref": "#/$defs/paths" },
+    "profiles": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/id" },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["entrypoint"],
+        "properties": {
+          "entrypoint": { "$ref": "#/$defs/path" },
+          "requires": { "$ref": "#/$defs/ids" }
+        }
+      }
+    },
+    "adapters": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/id" },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["entrypoint", "profiles"],
+        "properties": {
+          "entrypoint": { "$ref": "#/$defs/path" },
+          "profiles": { "type": "array", "$ref": "#/$defs/ids", "minItems": 1 },
+          "resources": { "$ref": "#/$defs/paths" }
+        }
+      }
+    },
+    "checks": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/id" },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["tool", "entrypoint"],
+        "properties": {
+          "tool": { "type": "string", "minLength": 1 },
+          "entrypoint": { "$ref": "#/$defs/path" },
+          "config": { "$ref": "#/$defs/path" },
+          "profiles": { "type": "array", "$ref": "#/$defs/ids", "minItems": 1 },
+          "adapters": { "type": "array", "$ref": "#/$defs/ids", "minItems": 1 }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$" },
+    "ids": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^/\\\\:*?\"<>|\\u0000-\\u001f]+(?:/[^/\\\\:*?\"<>|\\u0000-\\u001f]+)*$",
+      "not": { "pattern": "(^|/)\\.{1,2}(/|$)" }
+    },
+    "paths": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/path" } }
+  }
+}

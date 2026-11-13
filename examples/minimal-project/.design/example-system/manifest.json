@@ -1,0 +1,28 @@
+{
+  "$schema": "convention/schemas/package.schema.json",
+  "dsdxVersion": "0.1.0-draft.1",
+  "id": "example-system",
+  "version": "0.0.0-example",
+  "entrypoint": "DESIGN.md",
+  "foundation": ["foundation/spacing.tokens.json"],
+  "profiles": {
+    "reading": {
+      "entrypoint": "profiles/reading/DESIGN.md"
+    }
+  },
+  "adapters": {
+    "html": {
+      "entrypoint": "adapters/html/INTEGRATION.md",
+      "profiles": ["reading"],
+      "resources": ["adapters/html/reading.css"]
+    }
+  },
+  "checks": {
+    "terminology": {
+      "tool": "vale",
+      "entrypoint": "validation/vale/USAGE.md",
+      "config": "validation/vale/.vale.ini",
+      "profiles": ["reading"]
+    }
+  }
+}

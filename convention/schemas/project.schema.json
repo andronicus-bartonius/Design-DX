@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DSDX consuming project, working draft 0.1.0-draft.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["dsdxVersion", "system", "targets"],
+  "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
+    "dsdxVersion": { "const": "0.1.0-draft.1" },
+    "system": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "version"],
+      "properties": {
+        "path": { "$ref": "#/$defs/id", "not": { "const": "extensions" } },
+        "version": { "type": "string", "minLength": 1, "pattern": "^[^\\s]+$", "not": { "const": "latest" } }
+      }
+    },
+    "targets": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "$ref": "#/$defs/id" },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["profiles", "paths"],
+        "properties": {
+          "profiles": { "type": "array", "$ref": "#/$defs/ids", "minItems": 1 },
+          "adapters": { "$ref": "#/$defs/ids" },
+          "paths": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "anyOf": [{ "const": "." }, { "$ref": "#/$defs/path" }] }
+          }
+        }
+      }
+    },
+    "extensions": { "const": "extensions" },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled"],
+      "properties": {
+        "enabled": { "$ref": "#/$defs/ids" },
+        "blocking": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$" },
+    "ids": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^/\\\\:*?\"<>|\\u0000-\\u001f]+(?:/[^/\\\\:*?\"<>|\\u0000-\\u001f]+)*$",
+      "not": { "pattern": "(^|/)\\.{1,2}(/|$)" }
+    }
+  }
+}

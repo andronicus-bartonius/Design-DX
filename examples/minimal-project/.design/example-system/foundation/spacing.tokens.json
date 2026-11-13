@@ -1,0 +1,9 @@
+{
+  "space": {
+    "paragraph": {
+      "$type": "dimension",
+      "$value": { "value": 1, "unit": "rem" },
+      "$description": "Illustrative paragraph gap, not a brand recommendation."
+    }
+  }
+}
