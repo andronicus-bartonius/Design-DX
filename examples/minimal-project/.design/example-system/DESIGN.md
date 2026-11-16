@@ -1,6 +1,6 @@
 # Example System
 
-This synthetic system illustrates DSDX packaging. It is not an approved visual
+This synthetic system illustrates Design-DX packaging. It is not an approved visual
 identity, a complete UI kit, or a style recommendation. Its one spacing value and
 one terminology rule exist to make the package relationships concrete.
 

@@ -1,6 +1,6 @@
 # Configuration Reference
 
-Working draft `0.1.0-draft.1`. These field names are a proposed DSDX contract, not
+Working draft `0.1.0-draft.1`. These field names are a proposed Design-DX contract, not
 an adopted third-party standard. Unknown fields are rejected by the schemas so
 typos do not silently change intent. Tool-specific configuration belongs in its
 own files, not arbitrary fields on these objects.
@@ -12,10 +12,10 @@ Schema: [package.schema.json](schemas/package.schema.json).
 | Field | Required | Meaning |
 | --- | --- | --- |
 | `$schema` | No | Local schema reference for editors; normally `convention/schemas/package.schema.json` |
-| `dsdxVersion` | Yes | Exact convention revision; `0.1.0-draft.1` for this draft |
-| `id` | Yes | System identity and consumer directory name, such as `example-system` |
+| `conventionVersion` | Yes | Exact convention revision; `0.1.0-draft.1` for this draft |
+| `id` | Yes | Filesystem-safe brand identifier used for `<brand>`, such as the synthetic `example-system` |
 | `version` | Yes | Exact system release identifier, not a range or moving selector |
-| `entrypoint` | Yes | `DESIGN.md` |
+| `entrypoint` | Yes | Literal `DESIGN.md` relative to the package root; installed as `.design/<brand>/DESIGN.md` |
 | `source` | No | `repository` HTTPS URL and immutable `revision`; real releases should include these |
 | `foundation` | No | Package-relative entry files or resources shared across profiles |
 | `profiles` | No | Named profile descriptors |
@@ -23,7 +23,7 @@ Schema: [package.schema.json](schemas/package.schema.json).
 | `checks` | No | Offered optional verification descriptors; none is automatically enabled |
 
 IDs use lowercase letters, digits, and single internal hyphens, starting with a
-letter. `extensions` is reserved as a consumer directory and cannot be a system ID.
+letter. `extensions` is reserved as a consumer directory and cannot be a brand identifier.
 Version strings are exact identities. The schema rejects whitespace and `latest`,
 but checking whether an identifier is actually immutable is a release-process task.
 
@@ -63,9 +63,9 @@ Schema: [project.schema.json](schemas/project.schema.json).
 
 | Field | Required | Meaning |
 | --- | --- | --- |
-| `$schema` | No | Local schema reference, normally `<system-id>/convention/schemas/project.schema.json` |
-| `dsdxVersion` | Yes | Exact convention revision understood by the imported package |
-| `system.path` | Yes | Imported system directory relative to `.design/`; must equal its manifest ID |
+| `$schema` | No | Local schema reference, normally `<brand>/convention/schemas/project.schema.json` |
+| `conventionVersion` | Yes | Exact convention revision understood by the imported package |
+| `system.path` | Yes | Brand directory name relative to `.design/`; must equal the imported manifest's `id` |
 | `system.version` | Yes | Exact manifest version selected by the project |
 | `targets` | Yes | One or more named design contexts |
 | `extensions` | No | The literal directory name `extensions`; omit if unused |
@@ -74,7 +74,7 @@ Schema: [project.schema.json](schemas/project.schema.json).
 
 When `validation` is absent, no checks are selected. An empty `enabled` array also
 selects none. `blocking` is recorded intent, not a build hook. The consumer must
-wire any gate into its actual workflow; DSDX does not install one.
+wire any gate into its actual workflow; Design-DX does not install one.
 
 Each target requires a nonempty `profiles` array and `paths` array. `adapters` is
 optional and defaults conceptually to no adapters. `paths` contains literal files
@@ -87,7 +87,7 @@ and other irrelevant content in native-tool configuration as appropriate.
 ```json
 {
   "$schema": "example-system/convention/schemas/project.schema.json",
-  "dsdxVersion": "0.1.0-draft.1",
+  "conventionVersion": "0.1.0-draft.1",
   "system": { "path": "example-system", "version": "0.0.0-example" },
   "targets": {
     "article": {
@@ -99,7 +99,7 @@ and other irrelevant content in native-tool configuration as appropriate.
 }
 ```
 
-This configuration needs no project `DESIGN.md`, extensions, or validation tools.
+This configuration needs no project `.design/DESIGN.md`, extensions, or validation tools.
 It does not claim that the selected output has been validated.
 
 To opt into the example terminology check, add:

@@ -5,7 +5,7 @@
 1. Choose a trusted release and read its supported profiles, adapters, licenses,
    prerequisites, and limitations. A repository's source ZIP is not necessarily
    its consumer package.
-2. Extract the release's single system directory into the project's `.design/`.
+2. Extract the release's single `<brand>/` directory into the project's `.design/`.
    Inspect archive paths before extraction; an imported design package can contain code.
 3. Create `.design/project.json` with the exact system version and required targets.
    Use the [configuration reference](../convention/configuration.md) and bundled schema.
@@ -23,7 +23,8 @@ separate development prerequisites. Neither should be installed implicitly.
 ## Project Guidance and Extensions
 
 Add `.design/DESIGN.md` only when there are project decisions to explain. If it is
-absent, `project.json` and the selected package entry points are enough.
+absent, `.design/project.json`, the brand package's `.design/<brand>/DESIGN.md`,
+and the selected profile/adapter entry points are enough.
 
 Create `.design/extensions/` only when needed, and declare it in `project.json`.
 Document relevant loading order in the project's integration. This directory can
@@ -32,7 +33,7 @@ presence is not an instruction to merge every file.
 
 For multiple outputs, create separate targets when their selections differ.
 Target paths are literal project-relative files or directories. Native tool
-configuration controls syntax handling and exclusions; DSDX is not a new glob engine.
+configuration controls syntax handling and exclusions; Design-DX is not a new glob engine.
 
 ## Update Deliberately
 
@@ -41,8 +42,9 @@ configuration controls syntax handling and exclusions; DSDX is not a new glob en
 2. Review the new release's differences, migration notes, and tool requirements.
 3. Stage and inspect the new package separately. Keep its identity and declared
    convention version together.
-4. Replace only `.design/<system-id>/`; do not overlay files and leave removed
-   resources behind. Keep `project.json`, optional `DESIGN.md`, and `extensions/`.
+4. Replace only `.design/<brand>/`; do not overlay files and leave removed
+   resources behind. Keep `.design/project.json`, optional `.design/DESIGN.md`,
+   and `.design/extensions/`.
 5. Update the exact selected version and make any documented integration changes.
 6. Run checks you have chosen and review affected outputs. Report what was not checked.
 

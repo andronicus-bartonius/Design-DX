@@ -18,7 +18,7 @@ browser. Copy/bundle only intended runtime assets through the existing build.
 The stylesheet mirrors the spacing token by hand for this small fixture. It is
 not proof of a token compiler. When extending the example, load the project's own
 CSS afterward and deliberately override the custom property on this container.
-That describes CSS cascade behavior, not a DSDX-wide extension algorithm.
+That describes CSS cascade behavior, not a Design-DX-wide extension algorithm.
 
 No external fonts, scripts, or network assets are required. No browser, layout,
 or accessibility acceptance is claimed by shipping this file.

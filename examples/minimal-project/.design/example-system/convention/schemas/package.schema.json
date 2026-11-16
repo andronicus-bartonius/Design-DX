@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "DSDX design-system package, working draft 0.1.0-draft.1",
+  "title": "Design-DX design-system package, working draft 0.1.0-draft.1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["dsdxVersion", "id", "version", "entrypoint"],
+  "required": ["conventionVersion", "id", "version", "entrypoint"],
   "properties": {
     "$schema": { "type": "string", "minLength": 1 },
-    "dsdxVersion": { "const": "0.1.0-draft.1" },
+    "conventionVersion": { "const": "0.1.0-draft.1" },
     "id": { "$ref": "#/$defs/id", "not": { "const": "extensions" } },
     "version": { "type": "string", "minLength": 1, "pattern": "^[^\\s]+$", "not": { "const": "latest" } },
     "entrypoint": { "const": "DESIGN.md" },

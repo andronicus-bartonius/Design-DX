@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "DSDX consuming project, working draft 0.1.0-draft.1",
+  "title": "Design-DX consuming project, working draft 0.1.0-draft.1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["dsdxVersion", "system", "targets"],
+  "required": ["conventionVersion", "system", "targets"],
   "properties": {
     "$schema": { "type": "string", "minLength": 1 },
-    "dsdxVersion": { "const": "0.1.0-draft.1" },
+    "conventionVersion": { "const": "0.1.0-draft.1" },
     "system": {
       "type": "object",
       "additionalProperties": false,

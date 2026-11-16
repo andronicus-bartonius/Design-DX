@@ -17,15 +17,15 @@ one button geometry for every context. Profile-specific choices stay in profiles
 
 Consider purpose, audience, interaction, presentation, and environment together.
 Examples include long-form reading, a touch-operated control surface, or a dense
-keyboard-operated workspace. These are possible contexts, not DSDX's taxonomy.
+keyboard-operated workspace. Choose profiles around the work they need to support.
 
 A desktop application can contain several surfaces. A browser can host anything
 from a brochure to an equipment interface. Technology alone is not enough to define
 a profile. Start with a few coherent contexts rather than a matrix of every possible
 combination.
 
-Profiles contain their own semantic values, layout and component specifications,
-interaction states, content guidance, and examples where those are needed. They
+Profiles contain named design values, layout and component rules, interaction
+states, writing guidance, and examples where those are needed. They
 are more than a bag of overrides. Use dependency links for genuine reuse, not an
 inheritance hierarchy built before there are consumers.
 
@@ -43,10 +43,12 @@ Do not claim support for every platform because a JSON file can be read everywhe
 ## Avoid Duplicate Authority
 
 Write the palette value once. Reference it in semantic tokens and generate other
-representations when practical. Keep rationale in `DESIGN.md`, and link to the
-exact data rather than repeating large tables that drift.
+representations when practical. Keep shared rationale in the brand package's
+`.design/<brand>/DESIGN.md` and its selected profile guidance. Keep project-only
+decisions in the optional `.design/DESIGN.md`. Link to the exact data rather than
+repeating large tables that drift.
 
-Fixed requirements, defaults, and extension points need clear descriptions. DSDX
+Fixed requirements, defaults, and extension points need clear descriptions. Design-DX
 does not introduce a rules language to replace CSS, native resources, prose, or
 existing validators. Automate a rule only when its meaning and applicable scope
 are precise enough to test.

@@ -1,7 +1,7 @@
 # Agents and Skills
 
-DSDX uses files an agent or a human can inspect. It does not depend on a Letta,
-GitHub, or future platform API to interpret the design system.
+Design-DX uses local files that people and agents can read directly. No specific
+agent platform or hosting service is required to interpret a design package.
 
 ## Root Discovery
 
@@ -12,8 +12,9 @@ existing `AGENTS.md` is:
 ## Design
 
 Read `.design/project.json` before design work. If `.design/DESIGN.md` exists,
-read its project-specific guidance. Then read the imported system's `DESIGN.md`
-and the entry points selected for the affected target.
+read its project-specific guidance. Resolve `<brand>` from `system.path` in that
+configuration, then read `.design/<brand>/DESIGN.md` and the profile/adapter entry
+points selected for the affected target.
 
 Use declared project extensions without editing the imported release. Do not
 fetch a newer version, install tools, or run imported code without authorization.
@@ -23,7 +24,7 @@ Verification presets are available choices, not automatic build gates.
 Adapt the pointer to the harness's actual discovery rules. Do not replace an
 existing root instruction file or assume a nested `.agents/AGENTS.md` is equivalent.
 Project skills can live in `.agents/skills/` where supported. Their discovery is
-separate from DSDX package discovery.
+separate from Design-DX package discovery.
 
 ## Skill Responsibilities
 

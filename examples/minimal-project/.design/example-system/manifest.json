@@ -1,6 +1,6 @@
 {
   "$schema": "convention/schemas/package.schema.json",
-  "dsdxVersion": "0.1.0-draft.1",
+  "conventionVersion": "0.1.0-draft.1",
   "id": "example-system",
   "version": "0.0.0-example",
   "entrypoint": "DESIGN.md",

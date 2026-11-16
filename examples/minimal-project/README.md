@@ -1,7 +1,8 @@
-# Minimal DSDX Consumer
+# Minimal Design-DX Consumer
 
 This is a synthetic packaging example, not a brand or production design system.
-The `.design/example-system/` directory represents an exported release. Its local
+The `.design/example-system/` directory represents an exported release;
+`example-system` is the synthetic identifier used for `<brand>`. Its local
 contract and schemas travel with it. `project.json` selects it without enabling
 verification.
 
@@ -14,11 +15,12 @@ directory. The shared system entry point is sufficient for this example.
 2. Copy the `content/` directory or change the target's path to existing content.
 3. Incorporate the design pointer from `AGENTS.md` into your project's existing
    root instructions if you use an agent. Do not overwrite existing instructions.
-4. Inspect the shared `DESIGN.md` and selected profile/adapter entry points.
+4. Inspect `.design/example-system/DESIGN.md`, the imported brand entry point,
+   and the selected profile/adapter entry points.
 
 No install, network access, or execution is needed for these steps. Before
 publishing a real system, replace the synthetic identity and example resources,
-record provenance and licenses, and review the integration. DSDX itself does not
+record provenance and licenses, and review the integration. Design-DX itself does not
 automatically rename paths or generate a new system.
 
 ## Optional Vale Exercise

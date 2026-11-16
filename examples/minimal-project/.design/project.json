@@ -1,6 +1,6 @@
 {
   "$schema": "example-system/convention/schemas/project.schema.json",
-  "dsdxVersion": "0.1.0-draft.1",
+  "conventionVersion": "0.1.0-draft.1",
   "system": {
     "path": "example-system",
     "version": "0.0.0-example"

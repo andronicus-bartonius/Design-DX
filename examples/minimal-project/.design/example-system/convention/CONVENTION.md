@@ -1,4 +1,4 @@
-# DSDX Convention
+# Design-DX Convention
 
 Working draft: `0.1.0-draft.1`.
 
@@ -9,12 +9,18 @@ The [configuration reference](configuration.md) defines the exact draft fields.
 
 ## Design-System Package
 
+Package paths in this section are relative to the brand package root, installed
+at `.design/<brand>/` in a consuming project. `<brand>` is the filesystem-safe
+brand identifier recorded in manifest `id` and project `system.path`; it is not
+necessarily the brand's display name.
+
 A package must contain:
 
 - `manifest.json`, matching the package schema shipped with it.
-- `DESIGN.md`, the human/agent entry point for the shared system.
+- `DESIGN.md` at the package root, installed as `.design/<brand>/DESIGN.md`: the
+  human/agent entry point for the shared brand design system.
 - `convention/CONVENTION.md`, `convention/configuration.md`, and `convention/schemas/`, matching the declared
-  DSDX version. Reading the contract must not require a network request.
+  Design-DX version. Reading the contract must not require a network request.
 - The resources required to use every capability advertised in its manifest.
 - Rights and attribution information for distributed material. Package-level
   licensing does not replace third-party asset notices.
@@ -24,32 +30,42 @@ created only when needed. Their exact paths are declared, not inferred from a
 fixed taxonomy. This draft's package is one named system; composing multiple
 independently versioned upstream systems is outside its scope.
 
-`DESIGN.md` explains purpose, authority, usage, and boundaries. It links to
+The brand package's `.design/<brand>/DESIGN.md` explains purpose, authority,
+usage, and boundaries. It links to
 structured data and examples rather than repeating every value. It must identify
 the canonical source when two representations exist, such as tokens and generated
 CSS. Generated files are not independently edited sources.
 
 ## Foundations, Profiles, and Adapters
 
-A **foundation** holds genuinely shared identity, resources, values, and rules.
-Do not promote a context-specific choice into a universal rule for convenience.
+A **foundation** contains the brand's shared starting point: its logos, colors,
+fonts, and rules that apply wherever the brand is used.
 
-A **profile** describes design for a context: intended use, audience, interaction,
-presentation constraints, and relevant environments. It can define semantic
-tokens, component specifications, states, layout, content guidance, examples, and
-extensions to the foundation. Profile IDs are chosen by the system author; DSDX
-does not reserve categories such as marketing, web, or product UI.
+A **profile** explains how to use that foundation for a particular kind of work.
+For example, a reading profile might define heading styles, paragraph spacing,
+and tables; a touch-interface profile might define control sizes and button
+states. It holds the design rules, values, and examples for that use.
 
-An **adapter** implements design decisions in a technology or output: styles,
-components, templates, generation code, or integration instructions. It declares
-the profiles it supports. Sharing HTML as an output does not make two contexts
-the same profile; sharing a profile does not require one output technology.
+An **adapter** supplies the files and instructions that apply a profile in a
+particular tool or format. A web adapter might provide CSS and UI components;
+a document adapter might provide a document template. The same reading profile
+can have both adapters, keeping its design consistent across different outputs.
+
+![Shared brand foundations feed a reading profile, which can be implemented by an HTML adapter or a document adapter.](diagrams/design-layers.svg)
+
+This example shows one profile with two adapters, not a required set of profiles
+or an automatic build pipeline. [Editable D2 source](diagrams/design-layers.d2).
+
+A profile's own guidance file is distinct from both the brand entry point and
+project guidance. Its manifest entry determines the path, for example
+`.design/<brand>/profiles/<profile>/DESIGN.md`; that filename is not required for
+every profile.
 
 Profiles may declare required profiles by ID. Expand those dependencies before
 applying adapters or considering optional checks. Missing dependencies and cycles
 are invalid. Multiple selected profiles have no implicit precedence. Their
 combination must be explicitly supported in the system's guidance; unresolved
-conflicts require a decision, not last-file-wins merging. DSDX defines no universal
+conflicts require a decision, not last-file-wins merging. Design-DX defines no universal
 token overlay algorithm. Each adapter documents its actual merge and generation
 behavior, if any.
 
@@ -58,15 +74,15 @@ behavior, if any.
 The default consumer location is `.design/`. It contains:
 
 - `project.json`, validated against the schema in the imported package.
-- `<system-id>/`, the unmodified imported release directory.
-- Optional `DESIGN.md` for project-specific guidance.
+- `<brand>/`, the unmodified imported brand release directory.
+- Optional `.design/DESIGN.md` for project-specific guidance.
 - Optional `extensions/` for project-owned additions and approved overrides.
 
 `project.json` is authoritative for exact package selection, version, targets,
-extension location, and opted-in checks. The optional project `DESIGN.md` explains
+extension location, and opted-in checks. The optional `.design/DESIGN.md` explains
 decisions not adequately expressed there. It must not silently contradict the
-configuration. If it is absent, start with the imported system's `DESIGN.md` and
-selected entry points.
+configuration. If it is absent, start with `.design/<brand>/DESIGN.md` in the
+imported brand package and the selected profile/adapter entry points.
 
 Keep `AGENTS.md` at the project/workspace root. It may point to these local files.
 Project-specific skills and references can live in `.agents/`; neither that
@@ -99,7 +115,7 @@ stable names instead of copying their values into a second independent source.
 
 System authors distinguish fixed requirements, overridable defaults, and extension
 points. Project extensions document any departures, scope, rationale, and required
-approval. DSDX does not assign brand authority to a particular role or silently
+approval. Design-DX does not assign brand authority to a particular role or silently
 authorize exceptions. A documented exception is not an automated compliance pass.
 
 The mere presence of an extensions directory applies nothing. Adapters or project
@@ -113,6 +129,11 @@ Packages may ship prebuilt configurations, rules, schemas, fixtures, and optiona
 checker code. Each offered check documents its tool, setup, scope, invocation,
 requirements, and evidence limits. Include its necessary local resources in the
 package; do not leave consumers dependent on unshipped repository-only rules.
+
+Optional capabilities can include prose checks with Vale, a component catalog
+with Storybook, and browser or visual checks with Playwright. A component catalog
+provides examples to inspect; it is not a passing test result. Each capability
+keeps its own setup requirements, and projects choose which ones to use.
 
 No check is enabled merely by being shipped. Projects choose whether to run any
 checks and whether selected checks gate their build/review. Omitting verification
@@ -130,11 +151,11 @@ dependencies. Setup and network-dependent tasks are explicit, separate operation
 
 ## Releases and Updates
 
-The DSDX version and a system's own release version are separate. This draft uses
+The Design-DX version and a system's own release version are separate. This draft uses
 exact version strings, not ranges or `latest`. A release's manifest and its
 advertised resources must agree; record its source revision in release provenance.
 
-Export one top-level `<system-id>/` directory. A whole-system archive is the default.
+Export one top-level `<brand>/` directory. A whole-system archive is the default.
 If subset archives become necessary, include their transitive resources and
 matching contract, narrow the manifest to what ships, and give the artifact an
 unambiguous identity. Do not make consumers manually reconstruct dependencies.
@@ -151,15 +172,15 @@ checksums can both be rewritten. Verify release origin before running imported c
 
 ## Standards and Boundaries
 
-Use JSON Schema Draft 2020-12 for the DSDX configuration shapes. Bundle schemas
+Use JSON Schema Draft 2020-12 for the Design-DX configuration shapes. Bundle schemas
 locally. A `$schema` annotation names a schema, not permission to fetch or execute it.
 
 For interoperable tokens, prefer the Design Tokens Community Group format and
 declare the supported revision. Verify actual converter support rather than assuming
-every tool advertising DTCG handles the same revision. DSDX schemas do not validate
+every tool advertising DTCG handles the same revision. Design-DX schemas do not validate
 token files or replace that specification. Existing native formats can remain when
 their scope and conversion limits are explicit.
 
-DSDX does not define a visual brand, UI framework, tool runtime, mandatory CI,
+Design-DX does not define a visual brand, UI framework, tool runtime, mandatory CI,
 universal accessibility certification, or automatic aesthetic judgment. A package
 is self-contained in its design material, not necessarily in its execution runtime.
